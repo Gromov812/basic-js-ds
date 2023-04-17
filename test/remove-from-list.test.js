@@ -13,7 +13,7 @@ function convertArrayToList(arr) {
       node.next = acc;
       return node;
     }
-
+    
     return new ListNode(cur);
   }, null);
 }

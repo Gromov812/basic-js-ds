@@ -1,6 +1,6 @@
 const { NotImplementedError } = require('../extensions/index.js');
 
-// const { Node } = require('../extensions/list-tree.js');
+const { Node } = require('../extensions/list-tree.js');
 
 /**
 * Implement simple binary search tree according to task description
@@ -8,39 +8,98 @@ const { NotImplementedError } = require('../extensions/index.js');
 */
 class BinarySearchTree {
 
+  constructor() {
+      this.rootData = null;
+  }
+
   root() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+
+      if (this.rootData == null) return null;
+      else return this.rootData;
+
+
+
   }
 
-  add(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  add(data) {
+
+      let newNode = new Node(data);
+
+      if (this.rootData == null) {
+          this.rootData = newNode;
+          return;
+      }
+
+      else recur(this.rootData)
+      function recur(curNode) {
+
+          if (curNode.data < data) {
+
+              if (curNode.right == null) curNode.right = newNode;
+              else {
+                  recur(curNode.right)
+              }
+          }
+
+          else {
+              if (curNode.left == null) curNode.left = newNode;
+              else {
+                  recur(curNode.left)
+              }
+          }
+      }
   }
 
-  has(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  pahtFinder(curNode, data) {
+      switch (true) {
+          case curNode == null:
+              return null;
+          case curNode.data == data:
+              return curNode;
+          case curNode.data < data:
+              return this.pahtFinder(curNode.right, data);
+          case curNode.data > data:
+              return this.pahtFinder(curNode.left, data);
+      }
+
   }
 
-  find(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  has(data) {
+      let res = this.pahtFinder(this.rootData, data)
+      return res == null ? false : true;
+
   }
 
-  remove(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  find(data) {
+      let res = this.pahtFinder(this.rootData, data)
+      return res;
+  }
+
+  remove(data) {
+
+  }
+
+  minmaxCollector(curNode) {
+      let arr = [];
+      fill(curNode);
+      function fill(curNode) {
+          if (curNode == null) return;
+          arr.push(curNode.data)
+         fill(curNode.left);
+          fill(curNode.right);
+      }
+
+      return arr
   }
 
   min() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+      let arr = [...this.minmaxCollector(this.rootData)];
+      return Math.min(...arr)
   }
 
   max() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+      let arr = [...this.minmaxCollector(this.rootData)];
+      return Math.max(...arr)
   }
 }
 
